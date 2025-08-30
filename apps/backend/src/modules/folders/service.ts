@@ -36,6 +36,7 @@ export abstract class FolderService {
       select: serializerList
     })
   }
+
   static async retrieve(id: number) {
     const findUnique = prisma.rootFolder.findUnique({
       where: {
@@ -52,9 +53,18 @@ export abstract class FolderService {
       return findUnique
     }
   }
+
   static async create(body: FolderModel.createRootFolder) {
     return prisma.rootFolder.create({
       data: body
     });
+  }
+
+  static async delete(id: number) {
+    return prisma.rootFolder.delete({
+      where: {
+        id: id
+      }
+    })
   }
 }

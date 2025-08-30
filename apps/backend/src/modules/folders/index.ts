@@ -27,3 +27,13 @@ export const folderController = new Elysia()
       tags: ["Folder"]
     }
   })
+  .delete('/folders/:id', async ({params: {id}}) => {
+    return FolderService.delete(id)
+  }, {
+    params: t.Object({
+      id: t.Number()
+    }),
+    detail: {
+      tags: ["Folder"]
+    }
+  })

@@ -12,6 +12,7 @@ To run:
 
 ```bash
 bun run migrate
+bun run seed
 bun run dev
 ```
 

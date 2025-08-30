@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "bun --filter '*' dev",
     "build": "bun --filter '*' build",
-    "migrate": "bun --filter 'backend' migrate"
+    "migrate": "bun --filter 'backend' migrate",
+    "seed": "bun --filter 'backend' seed"
   },
   "type": "module",
   "workspaces": [
