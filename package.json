@@ -1,0 +1,21 @@
+{
+  "name": "infokes-explorer",
+  "author": "Yusuf Abdillah Putra <yusufabdillahputra@gmail.com>",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bun --filter '*' dev",
+    "build": "bun --filter '*' build",
+    "migrate": "bun --filter 'backend' migrate"
+  },
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

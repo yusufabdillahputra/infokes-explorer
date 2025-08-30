@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator prismabox {
+  provider                    = "prismabox"
+  typeboxImportDependencyName = "elysia"
+  typeboxImportVariableName   = "t"
+  inputModel                  = true
+  output                      = "../generated/prismabox"
+}
+
+enum SubFolderType {
+  FOLDER
+  FILE
+}
+
+model SubFolder {
+  id   Int           @id @default(autoincrement())
+  name String
+  type SubFolderType @default(FOLDER)
+
+  // Relasi ke RootFolder
+  rootFolderId Int
+  root         RootFolder @relation(fields: [rootFolderId], references: [id])
+
+  // Self-relation: parent
+  parentId Int? // nullable, karena bisa root folder
+  parent   SubFolder? @relation("SubfolderToSubfolder", fields: [parentId], references: [id])
+
+  subs SubFolder[] @relation("SubfolderToSubfolder")
+}
+
+model RootFolder {
+  id   Int         @id @default(autoincrement())
+  name String
+  subs SubFolder[]
+}
