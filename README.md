@@ -11,7 +11,7 @@ bun install
 To run:
 
 ```bash
-bun run migrate
+bun run migrate --name=Init
 bun run seed
 bun run dev
 ```
