@@ -22,14 +22,15 @@ export const useFolderRepository = () => {
     const {
       data: instance,
       pending,
-      error
+      error,
+      refresh
     } = await useFetch<ReadResponse<Folder | null>>(`${baseUrl}/${id}`, {
       method: 'GET',
       onResponse({response}) {
         if (onResponse) onResponse(response)
       },
     })
-    return {instance, pending, error}
+    return {instance, pending, error, refresh}
   }
   const remove = async (id: number, onResponse?: (res: FetchResponse<ReadResponse<Folder | null>>) => void) => {
     await $fetch(`${baseUrl}/${id}`, {

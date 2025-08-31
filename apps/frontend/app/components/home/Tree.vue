@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ChevronRight, File, Folder} from "lucide-vue-next"
+import {ChevronRight, File, Folder, Trash} from "lucide-vue-next"
 import {
   Collapsible,
   CollapsibleContent,
@@ -8,32 +8,53 @@ import {
 import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
 import type {SubFolder} from "~/types";
 import {useFileStore} from "~/stores/file";
+import {useFileService} from "~/composables/services/use-file-service";
 
 
+const route = useRoute();
 const fileStore = useFileStore();
+const {handleDeleteFileAction} = useFileService();
 const {name: nameStore} = storeToRefs(fileStore)
 const props = defineProps<{
   item: SubFolder
 }>()
 const [name, ...items] = Array.isArray(props.item) ? props.item : [props.item]
 
-function setFile(name: string): void {
-  fileStore.setFile(name)
+function handleDeleteFile(name: string): void {
+  if (route.params.id !== undefined) {
+    const rootFolderId = parseInt(route?.params?.id as string)
+    handleDeleteFileAction(rootFolderId, name)
+  }
 }
 </script>
 
 <template>
-  <SidebarMenuButton
-      v-if="!items.length"
-      :is-active="name === nameStore"
-      class="data-[active=true]:bg-transparent cursor-pointer"
-      @click="setFile(name)"
-  >
-    <File/>
-    {{ name }}
-  </SidebarMenuButton>
+  <ContextMenu v-if="!items.length">
+    <ContextMenuTrigger as-child>
+      <SidebarMenuButton
+          :is-active="name === nameStore"
+          class="data-[active=true]:bg-transparent cursor-pointer"
+          @click="fileStore.setFile(name)"
+      >
+        <File/>
+        {{ name }}
+      </SidebarMenuButton>
+    </ContextMenuTrigger>
+    <ContextMenuContent class="w-64">
+      <ContextMenuItem inset @click="handleDeleteFile(name)">
+        <Trash class="text-destructive"/>
+        Delete
+      </ContextMenuItem>
+    </ContextMenuContent>
+  </ContextMenu>
   <li v-else class="relative list-none">
     <Collapsible class="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90">
       <CollapsibleTrigger as-child>
