@@ -9,6 +9,16 @@ export interface FileStore {
   index: Record<string, string[]> | null;
 }
 
+export interface FolderRemoveDialogStore {
+  folder: { id: number; name: string } | null;
+  isOpen: boolean;
+}
+
+export interface FolderRenameDialogStore {
+  folder: { id: number; name: string } | null;
+  isOpen: boolean;
+}
+
 export interface Folder {
   id: number;
   name: string;

@@ -29,14 +29,14 @@ export function indexingFileMap(node: SubFolder, path: string[] = [], result: Fi
 }
 
 export function convertRootFolder(root: RootFolderEntity): Folder {
-  const entities = root.subs ?? [];
+  const subFolders = root.subs ?? [];
 
   const parentMap: Record<number, SubFolderEntity[]> = {};
-  entities.forEach(e => {
-    const pid = e.parentId;
+  subFolders.forEach(subFolder => {
+    const pid = subFolder.parentId;
     if (pid !== null) {
       if (!parentMap[pid]) parentMap[pid] = [];
-      parentMap[pid].push(e);
+      parentMap[pid].push(subFolder);
     }
   });
 
@@ -51,8 +51,8 @@ export function convertRootFolder(root: RootFolderEntity): Folder {
     }
   };
 
-  // Ambil semua top-level entities (parentId null) yang berada di root
-  const topLevel = entities.filter(e => e.parentId === null);
+  // Ambil semua top-level Sub Folders (parentId null) yang berada di root
+  const topLevel = subFolders.filter(e => e.parentId === null);
   const sub: SubFolder[] = topLevel.map(build);
   return {
     id: root.id,

@@ -20,5 +20,7 @@ import AppBreadcrumb from "~/components/global/AppBreadcrumb.vue";
       </header>
       <slot />
     </SidebarInset>
+    <HomeDialogRemoveFolder />
+    <HomeDialogRenameFolder />
   </SidebarProvider>
 </template>

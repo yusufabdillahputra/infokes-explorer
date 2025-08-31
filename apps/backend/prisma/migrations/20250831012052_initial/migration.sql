@@ -18,7 +18,7 @@ CREATE TABLE `RootFolder` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `SubFolder` ADD CONSTRAINT `SubFolder_rootFolderId_fkey` FOREIGN KEY (`rootFolderId`) REFERENCES `RootFolder`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `SubFolder` ADD CONSTRAINT `SubFolder_rootFolderId_fkey` FOREIGN KEY (`rootFolderId`) REFERENCES `RootFolder`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SubFolder` ADD CONSTRAINT `SubFolder_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `SubFolder`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `SubFolder` ADD CONSTRAINT `SubFolder_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `SubFolder`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

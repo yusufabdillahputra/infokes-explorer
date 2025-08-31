@@ -28,11 +28,11 @@ model SubFolder {
 
   // Relasi ke RootFolder
   rootFolderId Int
-  root         RootFolder @relation(fields: [rootFolderId], references: [id])
+  root         RootFolder @relation(fields: [rootFolderId], references: [id], onDelete: Cascade)
 
   // Self-relation: parent
   parentId Int? // nullable, karena bisa root folder
-  parent   SubFolder? @relation("SubfolderToSubfolder", fields: [parentId], references: [id])
+  parent   SubFolder? @relation("SubfolderToSubfolder", fields: [parentId], references: [id], onDelete: Cascade)
 
   subs SubFolder[] @relation("SubfolderToSubfolder")
 }

@@ -4,7 +4,9 @@ import {FolderModel} from "./model";
 
 
 export const folderController = new Elysia()
-  .get('/folders', FolderService.list(), {
+  .get('/folders', async () => {
+    return FolderService.list()
+  }, {
     detail: {
       tags: ["Folder"]
     }
@@ -23,6 +25,14 @@ export const folderController = new Elysia()
     return FolderService.create(body)
   }, {
     body: FolderModel.createRootFolder,
+    detail: {
+      tags: ["Folder"]
+    }
+  })
+  .patch('/folders', async ({body}) => {
+    return FolderService.update(body)
+  }, {
+    body: FolderModel.updateRootFolder,
     detail: {
       tags: ["Folder"]
     }

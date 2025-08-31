@@ -60,6 +60,17 @@ export abstract class FolderService {
     });
   }
 
+  static async update(body: FolderModel.updateRootFolder) {
+    return prisma.rootFolder.update({
+      where: {
+        id: body.id
+      },
+      data: {
+        name: body.name,
+      }
+    });
+  }
+
   static async delete(id: number) {
     return prisma.rootFolder.delete({
       where: {

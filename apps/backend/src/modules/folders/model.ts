@@ -8,4 +8,10 @@ export namespace FolderModel {
     name: t.String(),
   })
   export type createRootFolder = typeof createRootFolder.static
+
+  export const updateRootFolder = t.Object({
+    id: t.Number(),
+    name: t.String(),
+  })
+  export type updateRootFolder = typeof updateRootFolder.static
 }

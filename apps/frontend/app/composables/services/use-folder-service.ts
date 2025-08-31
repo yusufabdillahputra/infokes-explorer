@@ -1,9 +1,15 @@
 import type {Folder, ReadResponse} from "~/types";
 import type {FetchResponse} from 'ofetch'
+import {useFolderRemoveDialogStore, useFolderRenameDialogStore} from "~/stores/dialog";
+import {useFolderRepository} from "~/composables/repositories/use-folder-repository";
 
 
 export const useFolderService = () => {
   const fileStore = useFileStore();
+  const folderRemoveDialogStore = useFolderRemoveDialogStore();
+  const folderRenameDialogStore = useFolderRenameDialogStore();
+  const {update, remove, list} = useFolderRepository()
+
   const indexing = (response: FetchResponse<ReadResponse<Folder | null>>) => {
     const responseData: Folder | null = response?._data?.data ?? null;
     if (!fileStore.isAlreadyIndexing && responseData !== null) {
@@ -16,6 +22,7 @@ export const useFolderService = () => {
       }
     }
   }
+
   const onNavigateTo = (item: Folder) => {
     const {rootFolder} = storeToRefs(fileStore)
     if (rootFolder.value !== null) {
@@ -30,8 +37,55 @@ export const useFolderService = () => {
       navigateTo(`/folder/${item.id}`)
     }
   }
+
+  const handleDeleteFolderAction = (id: number, name: string) => {
+    folderRemoveDialogStore.setRootFolder({
+      id: id,
+      name: name
+    })
+    folderRemoveDialogStore.setIsOpen(true)
+  }
+
+  const removeFolderActionDialog = async () => {
+    const {folder} = storeToRefs(folderRemoveDialogStore)
+    const {refresh} = await list()
+    if (folderRemoveDialogStore.isFolderSet) {
+      if (folder?.value !== null) {
+        await remove(folder.value?.id)
+        await refresh()
+        navigateTo('/')
+      }
+      folderRemoveDialogStore.$reset()
+    }
+  }
+
+  const handleRenameFolderAction = (id: number, name: string) => {
+    folderRenameDialogStore.setRootFolder({
+      id: id,
+      name: name
+    })
+    folderRenameDialogStore.setIsOpen(true)
+  }
+
+  const renameFolderActionDialog = async (name: string) => {
+    folderRenameDialogStore.setName(name);
+    const {folder} = storeToRefs(folderRenameDialogStore)
+    const {refresh} = await list()
+    if (folderRenameDialogStore.isFolderSet) {
+      if (folder?.value !== null) {
+        await update(folder.value)
+        await refresh()
+      }
+      folderRenameDialogStore.$reset()
+    }
+  }
+
   return {
     indexing,
     onNavigateTo,
+    handleDeleteFolderAction,
+    handleRenameFolderAction,
+    removeFolderActionDialog,
+    renameFolderActionDialog,
   }
 }

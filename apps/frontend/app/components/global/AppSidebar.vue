@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {SidebarProps} from "@/components/ui/sidebar";
-import {FolderIcon, Trash, MoreHorizontal, Plus, FolderX} from "lucide-vue-next"
+import {FolderIcon, Trash, MoreHorizontal, Plus, FolderX, Pencil} from "lucide-vue-next"
 import {
   Sidebar,
   SidebarContent,
@@ -24,6 +24,7 @@ const props = defineProps<SidebarProps>()
 const {list} = useFolderRepository()
 const {onNavigateTo} = useFolderService()
 const {data: readResponse, pending, error} = await list()
+const {handleDeleteFolderAction, handleRenameFolderAction} = useFolderService()
 </script>
 
 <template>
@@ -62,7 +63,11 @@ const {data: readResponse, pending, error} = await list()
                   </SidebarMenuAction>
                 </DM.DropdownMenuTrigger>
                 <DM.DropdownMenuContent side="right" align="start">
-                  <DM.DropdownMenuItem class="cursor-pointer">
+                  <DM.DropdownMenuItem class="cursor-pointer" @click="handleRenameFolderAction(item.id, item.name)">
+                    <Pencil/>
+                    <span>Rename Folder</span>
+                  </DM.DropdownMenuItem>
+                  <DM.DropdownMenuItem class="cursor-pointer" @click="handleDeleteFolderAction(item.id, item.name)">
                     <Trash class="text-destructive"/>
                     <span>Delete Folder</span>
                   </DM.DropdownMenuItem>
