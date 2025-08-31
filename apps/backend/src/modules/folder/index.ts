@@ -1,6 +1,7 @@
 import {Elysia, t} from 'elysia'
 import {FolderService} from './service'
 import {FolderModel} from "./model";
+import {SubFolderType} from '../../../generated/prisma';
 
 
 export const folderController = new Elysia()
@@ -11,11 +12,22 @@ export const folderController = new Elysia()
       tags: ["Folder"]
     }
   })
+  .get('/folders/subs', async ({query}) => {
+    return FolderService.listSub(query?.type ?? null, query?.rootId ?? null)
+  }, {
+    query: t.Object({
+      rootId: t.Optional(t.Number()),
+      type: t.Optional(t.Enum(SubFolderType))
+    }),
+    detail: {
+      tags: ["Folder"]
+    }
+  })
   .get('/folders/:id', async ({params: {id}}) => {
     return FolderService.retrieve(id)
   }, {
     params: t.Object({
-      id: t.Number()
+      id: t.Number(),
     }),
     detail: {
       tags: ["Folder"]

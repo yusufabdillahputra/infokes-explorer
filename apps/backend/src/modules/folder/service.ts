@@ -30,10 +30,36 @@ const serializerList = {
   subs: false
 }
 
+const serializerListSub = {
+  id: true,
+  name: true,
+  type: true,
+  rootFolderId: true,
+  parentId: false,
+  parent: false
+}
+
 export abstract class FolderService {
   static async list() {
     return prisma.rootFolder.findMany({
       select: serializerList
+    })
+  }
+
+  static async listSub(type: 'FILE' | 'FOLDER' | null, rootId: number | null) {
+    const where: any = {};
+
+    if (type !== null) {
+      where.type = type;
+    }
+
+    if (rootId !== null) {
+      where.rootFolderId = rootId;
+    }
+
+    return prisma.subFolder.findMany({
+      where,
+      select: serializerListSub
     })
   }
 
