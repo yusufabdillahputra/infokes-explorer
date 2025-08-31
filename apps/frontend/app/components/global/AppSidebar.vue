@@ -34,7 +34,7 @@ const props = defineProps<SidebarProps>()
 const {list} = useFolderRepository()
 const {onNavigateTo} = useFolderService()
 const {data: readResponse, pending, error} = await list()
-const {handleDeleteFolderAction, handleRenameFolderAction} = useFolderService()
+const {handleDeleteFolderAction, handleRenameFolderAction, handleCreateRootFolderAction} = useFolderService()
 </script>
 
 <template>
@@ -50,7 +50,7 @@ const {handleDeleteFolderAction, handleRenameFolderAction} = useFolderService()
             </SidebarGroupAction>
           </DM.DropdownMenuTrigger>
           <DM.DropdownMenuContent side="right" align="start">
-            <DM.DropdownMenuItem class="cursor-pointer">
+            <DM.DropdownMenuItem class="cursor-pointer" @click="handleCreateRootFolderAction">
               <FolderPlus/>
               <span>Add Root Folder</span>
             </DM.DropdownMenuItem>

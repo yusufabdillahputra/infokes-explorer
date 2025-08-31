@@ -1,6 +1,6 @@
 import type {Folder, ReadResponse} from "~/types";
 import type {FetchResponse} from 'ofetch'
-import {useFolderRemoveDialogStore, useFolderRenameDialogStore} from "~/stores/dialog";
+import {useFolderRemoveDialogStore, useFolderRenameDialogStore, useRootFolderCreateDialogStore} from "~/stores/dialog";
 import {useFolderRepository} from "~/composables/repositories/use-folder-repository";
 
 
@@ -8,7 +8,8 @@ export const useFolderService = () => {
   const fileStore = useFileStore();
   const folderRemoveDialogStore = useFolderRemoveDialogStore();
   const folderRenameDialogStore = useFolderRenameDialogStore();
-  const {update, remove, list} = useFolderRepository()
+  const rootFolderCreateDialogStore = useRootFolderCreateDialogStore();
+  const {update, remove, list, create} = useFolderRepository()
 
   const indexing = (response: FetchResponse<ReadResponse<Folder | null>>) => {
     const responseData: Folder | null = response?._data?.data ?? null;
@@ -80,6 +81,17 @@ export const useFolderService = () => {
     }
   }
 
+  const handleCreateRootFolderAction = () => {
+    rootFolderCreateDialogStore.setIsOpen(true);
+  }
+
+  const createRootFolderActionDialog = async (name: string) => {
+    const {refresh} = await list()
+    await create(name)
+    await refresh()
+    rootFolderCreateDialogStore.$reset()
+  }
+
   return {
     indexing,
     onNavigateTo,
@@ -87,5 +99,7 @@ export const useFolderService = () => {
     handleRenameFolderAction,
     removeFolderActionDialog,
     renameFolderActionDialog,
+    handleCreateRootFolderAction,
+    createRootFolderActionDialog,
   }
 }

@@ -1,5 +1,22 @@
 import {defineStore, acceptHMRUpdate} from 'pinia'
-import type {FileRemoveDialogStore, FolderRemoveDialogStore, FolderRenameDialogStore} from "~/types";
+import type {
+  FileRemoveDialogStore,
+  FolderRemoveDialogStore,
+  FolderRenameDialogStore,
+  RootFolderCreateDialogStore
+} from "~/types";
+
+export const useRootFolderCreateDialogStore = defineStore('rootFolderCreateDialogStore', {
+  state: (): RootFolderCreateDialogStore => ({
+    isOpen: false
+  }),
+  persist: true,
+  actions: {
+    setIsOpen(value: boolean): void {
+      this.isOpen = value;
+    }
+  }
+})
 
 export const useFolderRemoveDialogStore = defineStore('folderRemoveDialogStore', {
   state: (): FolderRemoveDialogStore => ({
@@ -69,4 +86,6 @@ export const useFileRemoveDialogStore = defineStore('fileRemoveDialogStore', {
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useFolderRemoveDialogStore, import.meta.hot))
   import.meta.hot.accept(acceptHMRUpdate(useFolderRenameDialogStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useRootFolderCreateDialogStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useFileRemoveDialogStore, import.meta.hot))
 }

@@ -57,10 +57,23 @@ export const useFolderRepository = () => {
     })
   }
 
+  const create = async (name: string, onResponse?: (res: FetchResponse<ReadResponse<Folder | null>>) => void) => {
+    await $fetch(`${baseUrl}`, {
+      method: 'POST',
+      body: {
+        name: name
+      },
+      onResponse({response}) {
+        if (onResponse) onResponse(response)
+      },
+    })
+  }
+
   return {
     list,
     retrieve,
     remove,
-    update
+    update,
+    create
   }
 }

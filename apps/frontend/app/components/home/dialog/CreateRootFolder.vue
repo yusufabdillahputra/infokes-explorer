@@ -22,24 +22,22 @@ import {
 } from '@/components/ui/dialog'
 import {Input} from "@/components/ui/input"
 import {useFolderService} from "~/composables/services/use-folder-service";
+import {useRootFolderCreateDialogStore} from "~/stores/dialog";
 
 
-const {renameFolderActionDialog} = useFolderService()
-const store = useFolderRenameDialogStore()
-const {isOpen, folder} = storeToRefs(store)
+const {createRootFolderActionDialog} = useFolderService()
+const store = useRootFolderCreateDialogStore()
+const {isOpen} = storeToRefs(store)
 const formSchema = toTypedSchema(
     z.object({
       name: z.string().nonempty(),
     })
 );
 const {isFieldDirty, handleSubmit} = useForm({
-  validationSchema: formSchema,
-  initialValues: {
-    name: folder.value?.name ?? '',
-  }
+  validationSchema: formSchema
 })
 const onSubmit = handleSubmit((values) => {
-  renameFolderActionDialog(values.name)
+  createRootFolderActionDialog(values.name)
 })
 </script>
 
@@ -51,9 +49,9 @@ const onSubmit = handleSubmit((values) => {
   >
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>Rename Folder</DialogTitle>
+        <DialogTitle>Create Root Folder</DialogTitle>
         <DialogDescription>
-          Rename your folder here. Click save when you're done.
+          Create your root folder here. Click save when you're done.
         </DialogDescription>
       </DialogHeader>
       <form class="w-full space-y-6" @submit="onSubmit">

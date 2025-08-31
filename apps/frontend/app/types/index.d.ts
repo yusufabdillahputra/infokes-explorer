@@ -14,6 +14,10 @@ export interface FolderRemoveDialogStore {
   isOpen: boolean;
 }
 
+export interface RootFolderCreateDialogStore {
+  isOpen: boolean;
+}
+
 export interface FolderRenameDialogStore {
   folder: { id: number; name: string } | null;
   isOpen: boolean;
