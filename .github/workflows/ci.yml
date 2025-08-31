@@ -44,7 +44,7 @@ jobs:
         run: bun install
 
       - name: Run migrations
-        run: bun run migrate
+        run: bun run migrate:deploy
 
       - name: Run seeders
         run: bun run seed

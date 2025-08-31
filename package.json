@@ -7,6 +7,7 @@
     "dev": "bun --filter '*' dev",
     "build": "bun --filter '*' build",
     "migrate": "bun --filter 'backend' migrate",
+    "migrate:deploy": "bun --filter 'backend' migrate:deploy",
     "test": "bun --filter 'backend' test",
     "seed": "bun --filter 'backend' seed"
   },
