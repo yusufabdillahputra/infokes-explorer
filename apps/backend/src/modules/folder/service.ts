@@ -86,6 +86,12 @@ export abstract class FolderService {
     });
   }
 
+  static async createSub(body: FolderModel.createSub) {
+    return prisma.subFolder.create({
+      data: body
+    });
+  }
+
   static async update(body: FolderModel.updateRootFolder) {
     return prisma.rootFolder.update({
       where: {

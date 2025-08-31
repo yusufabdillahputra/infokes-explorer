@@ -41,6 +41,14 @@ export const folderController = new Elysia()
       tags: ["Folder"]
     }
   })
+  .post('/folders/subs', async ({body}) => {
+    return FolderService.createSub(body)
+  }, {
+    body: FolderModel.createSub,
+    detail: {
+      tags: ["Folder"]
+    }
+  })
   .patch('/folders', async ({body}) => {
     return FolderService.update(body)
   }, {
