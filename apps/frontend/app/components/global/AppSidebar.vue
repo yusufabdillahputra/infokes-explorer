@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import type {SidebarProps} from "@/components/ui/sidebar";
-import {FolderIcon, Trash, MoreHorizontal, Plus, FolderX, Pencil} from "lucide-vue-next"
+import {
+  FolderIcon,
+  Trash,
+  MoreHorizontal,
+  Plus,
+  FolderX,
+  FolderPlus,
+  FolderTree,
+  FilePlus,
+  Pencil,
+} from "lucide-vue-next"
 import {
   Sidebar,
   SidebarContent,
@@ -32,10 +42,28 @@ const {handleDeleteFolderAction, handleRenameFolderAction} = useFolderService()
     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupLabel>Root Folders</SidebarGroupLabel>
-        <SidebarGroupAction title="Add Folder" class="cursor-pointer">
-          <Plus/>
-          <span class="sr-only">Add Folder</span>
-        </SidebarGroupAction>
+        <DM.DropdownMenu>
+          <DM.DropdownMenuTrigger as-child>
+            <SidebarGroupAction title="Add Folder" class="cursor-pointer">
+              <Plus/>
+              <span class="sr-only">Add Folder</span>
+            </SidebarGroupAction>
+          </DM.DropdownMenuTrigger>
+          <DM.DropdownMenuContent side="right" align="start">
+            <DM.DropdownMenuItem class="cursor-pointer">
+              <FolderPlus/>
+              <span>Add Root Folder</span>
+            </DM.DropdownMenuItem>
+            <DM.DropdownMenuItem class="cursor-pointer">
+              <FolderTree/>
+              <span>Add Sub Folder</span>
+            </DM.DropdownMenuItem>
+            <DM.DropdownMenuItem class="cursor-pointer">
+              <FilePlus/>
+              <span>Add File</span>
+            </DM.DropdownMenuItem>
+          </DM.DropdownMenuContent>
+        </DM.DropdownMenu>
         <SidebarGroupContent class="mt-5">
           <SidebarMenu v-if="error" class="ml-2">
             <SidebarMenuItem>
