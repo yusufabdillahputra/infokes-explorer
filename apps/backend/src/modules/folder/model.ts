@@ -14,7 +14,7 @@ export namespace FolderModel {
     name: t.String(),
     rootFolderId: t.Number(),
     type: t.Enum(SubFolderType),
-    parentId: t.Optional(t.Number()),
+    parentId: t.Union([t.Number(), t.Null()]),
   })
   export type createSub = typeof createSub.static
 

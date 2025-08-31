@@ -18,6 +18,16 @@ export interface RootFolderCreateDialogStore {
   isOpen: boolean;
 }
 
+export interface CreateFolderFileDialogStore {
+  isOpen: boolean;
+  instance: {
+    name: string,
+    rootFolderId: number,
+    type: 'FOLDER' | 'FILE',
+    parentId: number | null,
+  } | null
+}
+
 export interface FolderRenameDialogStore {
   folder: { id: number; name: string } | null;
   isOpen: boolean;

@@ -1,5 +1,6 @@
 import {defineStore, acceptHMRUpdate} from 'pinia'
 import type {
+  CreateFolderFileDialogStore,
   FileRemoveDialogStore,
   FolderRemoveDialogStore,
   FolderRenameDialogStore,
@@ -12,6 +13,48 @@ export const useRootFolderCreateDialogStore = defineStore('rootFolderCreateDialo
   }),
   persist: true,
   actions: {
+    setIsOpen(value: boolean): void {
+      this.isOpen = value;
+    }
+  }
+})
+
+export const useCreateFolderDialogStore = defineStore('createFolderDialogStore', {
+  state: (): CreateFolderFileDialogStore => ({
+    isOpen: false,
+    instance: null
+  }),
+  persist: true,
+  actions: {
+    setInstance(value: {
+      name: string,
+      rootFolderId: number,
+      type: 'FOLDER' | 'FILE',
+      parentId: number | null,
+    } | null): void {
+      this.instance = value;
+    },
+    setIsOpen(value: boolean): void {
+      this.isOpen = value;
+    }
+  }
+})
+
+export const useCreateFileDialogStore = defineStore('createFileDialogStore', {
+  state: (): CreateFolderFileDialogStore => ({
+    isOpen: false,
+    instance: null
+  }),
+  persist: true,
+  actions: {
+    setInstance(value: {
+      name: string,
+      rootFolderId: number,
+      type: 'FOLDER' | 'FILE',
+      parentId: number | null,
+    } | null): void {
+      this.instance = value;
+    },
     setIsOpen(value: boolean): void {
       this.isOpen = value;
     }

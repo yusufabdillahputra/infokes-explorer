@@ -18,11 +18,13 @@ import AppBreadcrumb from "~/components/global/AppBreadcrumb.vue";
         <Separator orientation="vertical" class="mr-2 h-4"/>
         <AppBreadcrumb/>
       </header>
-      <slot />
+      <slot/>
     </SidebarInset>
-    <HomeDialogRemoveFolder />
-    <HomeDialogRemoveFile />
-    <HomeDialogRenameFolder />
-    <HomeDialogCreateRootFolder />
+    <HomeDialogRemoveFolder/>
+    <HomeDialogRemoveFile/>
+    <HomeDialogRenameFolder/>
+    <HomeDialogCreateRootFolder/>
+    <HomeDialogCreateFolder/>
+    <HomeDialogCreateFile/>
   </SidebarProvider>
 </template>

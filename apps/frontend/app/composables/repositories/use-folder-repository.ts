@@ -1,10 +1,10 @@
-import type {Folder, ReadResponse} from "~/types";
+import type {Folder, ReadResponse, SubFolderEntity} from "~/types";
 import type {FetchResponse} from 'ofetch'
 
 const baseUrl: string = "/api/folders";
 
 export const useFolderRepository = () => {
-  const list = async (onResponse?: (res: FetchResponse<ReadResponse<Folder | null>>) => void) => {
+  const list = async (onResponse?: (res: FetchResponse<ReadResponse<Folder[] | null>>) => void) => {
     const {
       data,
       pending,
@@ -12,6 +12,21 @@ export const useFolderRepository = () => {
       error
     } = await useFetch<ReadResponse<Folder[]>>(baseUrl, {
       method: 'GET',
+      onResponse({response}) {
+        if (onResponse) onResponse(response)
+      },
+    })
+    return {data, pending, refresh, error}
+  }
+  const listSub = async (query?: Record<string, string>, onResponse?: (res: FetchResponse<ReadResponse<SubFolderEntity[] | null>>) => void) => {
+    const {
+      data,
+      pending,
+      refresh,
+      error
+    } = await useFetch<ReadResponse<SubFolderEntity[]>>(`${baseUrl}/subs`, {
+      method: 'GET',
+      query: query,
       onResponse({response}) {
         if (onResponse) onResponse(response)
       },
@@ -69,11 +84,28 @@ export const useFolderRepository = () => {
     })
   }
 
+  const createSub = async (body: {
+    name: string,
+    rootFolderId: number,
+    type: 'FOLDER' | 'FILE',
+    parentId: number | null,
+  }, onResponse?: (res: FetchResponse<ReadResponse<SubFolderEntity | null>>) => void) => {
+    await $fetch(`${baseUrl}/subs`, {
+      method: 'POST',
+      body: body,
+      onResponse({response}) {
+        if (onResponse) onResponse(response)
+      },
+    })
+  }
+
   return {
     list,
+    listSub,
     retrieve,
     remove,
     update,
-    create
+    create,
+    createSub,
   }
 }
